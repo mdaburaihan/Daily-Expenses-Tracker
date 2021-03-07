@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Set Limit for this month:</h1>
+<form [formGroup]="monthlyLimitForm" (ngSubmit)="addMonthlyLimit()">
+  <div mat-dialog-content>
+    <p>You can't expense money beyond monthly limit.</p>
+    <mat-form-field>
+      <mat-label>Enter amount here:</mat-label>
+      <input type="number" #limit_amount matInput formControlName="limit_amount" placeholder="Please enter amount" [(ngModel)]="monthlyLimit">
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button type="button" mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button cdkFocusInitial color="primary" [disabled]="!monthlyLimitForm.valid || monthlyLimit == 0">Save</button>
+  </div>
+</form>

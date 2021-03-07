@@ -1,0 +1,45 @@
+
+<div fxLayout="row">
+  <div fxFlex="500">
+    <mat-card  style="margin-left:200px; margin-top:100px; width:500px">
+      <h3>Signup here:</h3>
+      <form [formGroup]="signupForm" class="example-form" (ngSubmit)="signup()">
+          <mat-form-field class="example-full-width">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" placeholder="Please enter your name">
+          </mat-form-field>
+        
+          <mat-form-field class="example-full-width">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="Please enter your email" email="true">
+          </mat-form-field>
+          
+          <mat-form-field class="example-full-width">
+              <mat-label>Contact No</mat-label>
+              <input matInput type="number" formControlName="contact_no" placeholder="Please enter your contact no">
+          </mat-form-field>
+          <div *ngIf="signupForm.get('contact_no')?.hasError('contactNoLengthIncorrect')" style="color:red;">
+           Contact no must be of 10 digit
+          </div>
+          <div formGroupName="passwordGroup">
+            <mat-form-field class="example-full-width">
+              <mat-label>Password</mat-label>
+              <input matInput type="password" formControlName="password" placeholder="Please enter your password">
+            </mat-form-field>
+  
+            <mat-form-field class="example-full-width">
+              <mat-label>Confirm Password</mat-label>
+              <input matInput type="password" formControlName="cpassword" placeholder="Please re-enter your password">
+            </mat-form-field>
+          </div>
+          <div *ngIf="signupForm.get('passwordGroup')?.hasError('passwordMisMatch')" style="color:red;">
+            Password and confirm password not matched.
+          </div>
+          <input type="file" formControlName="profile_pic" (change)="onProfilePicSelected($event)">
+  
+          <button mat-raised-button color="primary" [disabled]="signupForm.invalid">Signup</button>
+      </form>
+      <display-profile-pic [selectedProfilePic]="selectedProfilePic"></display-profile-pic>
+  </mat-card>
+  </div>
+</div>

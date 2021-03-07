@@ -1,0 +1,72 @@
+
+<div style="margin-left:400px;width:600px;float:left;margin-top:100px">
+  <!-- <mat-spinner *ngIf="displayLoaderFlag"></mat-spinner> -->
+  <a mat-raised-button color="primary" routerLink="/list-expenses">View Expenses</a>
+  <button mat-raised-button color="primary" (click)="openMonthlyLimitSetDialog()" style="margin-left: 20px;">Set Monthly Limit</button>
+  <!-- <button mat-raised-button color="primary" (click)="openAddPastExpenseDialog()" style="margin-left: 20px;">Add Past Expense</button> -->
+  <mat-card >
+    <h3>Add your expense here:</h3>
+    <form [formGroup]="addExpenseForm" (ngSubmit)="addEditExpense()">
+      <mat-form-field class="example-full-width">
+        <mat-label>Amount: </mat-label>
+        <input type="number" #amount matInput formControlName="amount" placeholder="Please enter amount">
+       
+      </mat-form-field>
+      <mat-label>Calculate Expense: </mat-label>
+      <button mat-mini-fab color="primary" type="button" style="margin-right:10px;" (click)="calculateExpense('remove', amount.value)">-</button>
+      <button mat-mini-fab color="primary" type="button" (click)="calculateExpense('add', amount.value)">+</button>
+      
+      <mat-form-field class="example-full-width">
+        <mat-label>Reason: </mat-label>
+        <textarea matInput formControlName="reason" placeholder="Please enter reason"></textarea>
+      </mat-form-field>
+
+      <mat-slide-toggle formControlName="past_expense" [(ngModel)]="past_expense" (change)="pastExpenseToggle()">Add as past expense</mat-slide-toggle>
+
+      <mat-form-field appearance="fill" class="example-full-width" *ngIf="past_expense">
+        <mat-label>Select past date</mat-label>
+        <input matInput [matDatepicker]="past_expense_date" disabled formControlName="past_expense_date" [max]="maxDate">
+        <mat-datepicker-toggle matSuffix [for]="past_expense_date"></mat-datepicker-toggle>
+        <mat-datepicker #dp3 disabled="false" #past_expense_date></mat-datepicker>
+      </mat-form-field>
+
+      <div style="margin-bottom: 20px;">
+        <mat-label>Items: </mat-label>
+        <button mat-button color="primary" type="button" (click)="addCustomTagButtonClick()">+ Add</button>
+        <div formArrayName="items" *ngFor="let customTag of addExpenseForm.get('items').controls; let i = index">
+          <div [formGroup]="addExpenseForm.get('items').controls[i]"> 
+        
+            <mat-form-field style="width:40%; margin-right: 20px;">
+              <input type="text" matInput [id]="'item_name'+i" formControlName="item_name" placeholder="Please enter item name">
+            </mat-form-field>
+
+            <mat-form-field style="width:40%">
+              <input type="number" matInput [id]="'item_price'+i" formControlName="item_price" placeholder="Please enter item price">
+            </mat-form-field>
+            <button mat-icon-button color="warn" type="button" (click)="removeCustomTagButtonClick(i)">X</button>
+              
+          </div>
+        </div>
+      </div>
+
+      <button mat-raised-button color="primary" [disabled]="addExpenseForm.pristine || !addExpenseForm.valid">Add Expense</button>
+    </form>
+  </mat-card>
+
+</div>
+<div style="margin-left:1000px;width:300px;margin-top:100px">
+  <mat-card>
+    <h4>Track your expense amount here:</h4>
+    <mat-chip-list class="mat-chip-list-stacked" aria-label="Color selection">
+      <mat-chip selected>
+        Total Expense of today: {{todayTotalExpense}}
+      </mat-chip>
+      <mat-chip selected>
+        Total Expense in this month: {{totalMonthExpense}}
+      </mat-chip>
+      <mat-chip selected>
+        Your limit for this month: {{totalBudget}}
+      </mat-chip>
+    </mat-chip-list>
+  </mat-card>
+</div>
