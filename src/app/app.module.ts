@@ -16,6 +16,7 @@ import { AddPastExpenseComponent } from './add-past-expense/add-past-expense.com
 import { SignupComponent } from './signup/signup.component';
 import { DisplayProfilePicComponent } from './display-profile-pic/display-profile-pic.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { AuthGuard } from './auth.guard';
 
 
 @NgModule({
@@ -40,12 +41,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     HttpClientModule,
     RouterModule.forRoot([
       { path: "", component: SignupComponent },
-      { path: "add-expenses", component: AddExpensesComponent },
+      { path: "add-expenses", canActivate:[AuthGuard], component: AddExpensesComponent },
       { path: "list-expenses", component: ListExpensesComponent },
       { path: "login", component: LoginComponent },
     ]),
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent],
   entryComponents: [MonthlyLimitComponent, AddPastExpenseComponent]
 })

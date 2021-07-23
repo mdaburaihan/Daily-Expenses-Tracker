@@ -26,7 +26,7 @@ export class ListExpensesComponent implements OnInit {
 
   ngOnInit() {
     this.ExpenseService.getExpenseList().subscribe(res => {
-      
+      console.log("====", res)
       this.expenseListArr = res;
       this.displayedColumns = ['date_time', 'amount', 'reason', 'items'];
     });

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError, of } from 'rxjs';
+import { Observable, throwError, of, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from "@angular/common/http";
 import { map, catchError, tap } from "rxjs/operators";
 
@@ -8,6 +8,7 @@ import { map, catchError, tap } from "rxjs/operators";
 })
 export class AuthService {
   errorData: { error: number; };
+  public user = new BehaviorSubject<any>(null);
 
   constructor(private http: HttpClient) { }
 
@@ -33,24 +34,20 @@ export class AuthService {
   
   login(data: any): Observable<any> {
     return this.http.post<any>("http://localhost:3000/auth", data, { }).pipe(map(res => {
+      this.user.next(res as any);
       return res;
     }), catchError(err => of(err)));
   }
 
   signup(data: any): Observable<any> {
-    console.log("==================")
-    console.log(data)
     return this.http.post<any>("http://localhost:3000/auth/signup", data, { }).pipe(map(res => {
+      this.user.next(res as any);
       return res;
     }), catchError(err => of(err)));
   }
 
   getAuthorizationToken() {
-    //console.log(localStorage.getItem("userToken"))
-    //const currentUser = JSON.parse(localStorage.getItem("userToken"));
     const currentUser = localStorage.getItem("userToken");
-    //console.log(currentUser);
-    //return currentUser.token;
     return currentUser;
   }
   
