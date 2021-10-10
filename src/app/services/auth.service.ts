@@ -33,10 +33,14 @@ export class AuthService {
   }
   
   login(data: any): Observable<any> {
-    return this.http.post<any>("http://localhost:3000/auth", data, { }).pipe(map(res => {
-      this.user.next(res as any);
-      return res;
-    }), catchError(err => of(err)));
+    return this.http.post<any>("http://localhost:3000/auth", data, { headers: new HttpHeaders( { 'Content-Type': 'application/json' })})
+    .pipe(
+      map(res => {
+        this.user.next(res as any);
+        return res;
+      })
+      , catchError(err => of(err))
+    );
   }
 
   signup(data: any): Observable<any> {
