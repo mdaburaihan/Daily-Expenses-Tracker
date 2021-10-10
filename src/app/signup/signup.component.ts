@@ -19,7 +19,11 @@ export class SignupComponent implements OnInit {
     private AuthService: AuthService,
     private router: Router,
     private _snackBar: MatSnackBar,
-  ) { }
+  ) { 
+    if (this.AuthService.getAuthorizationToken()) { 
+      this.router.navigate(['/add-expenses']);
+    }
+  }
 
   ngOnInit() {
     this.signupForm = this.fb.group({

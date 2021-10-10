@@ -40,9 +40,9 @@ import { AuthGuard } from './auth.guard';
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: "", component: SignupComponent },
+      { path: "", canActivate:[AuthGuard], component: SignupComponent },
       { path: "add-expenses", canActivate:[AuthGuard], component: AddExpensesComponent },
-      { path: "list-expenses", component: ListExpensesComponent },
+      { path: "list-expenses", canActivate:[AuthGuard], component: ListExpensesComponent },
       { path: "login", component: LoginComponent },
     ]),
   ],

@@ -11,6 +11,8 @@ import { take, map } from 'rxjs/operators';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
+  loginFailedFlag = false;
+  loginErrorMsg: string = "";
 
   constructor(
     private fb: FormBuilder,
@@ -18,9 +20,14 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute
   ) {
-    if (this.AuthService.getAuthorizationToken()) { 
-      console.log("===here---11")
-        this.router.navigate(['/add-expenses']);
+    console.log("this.router.url", this.router.url)
+
+    if(this.router.url === "/signup"){
+      console.log("==1")
+      this.router.navigate(['/signup']);
+    }else if(this.AuthService.getAuthorizationToken()){
+      console.log("==2")
+      this.router.navigate(['/add-expenses']);
     }
    }
 
@@ -33,9 +40,18 @@ export class LoginComponent implements OnInit {
 
   login(): void{
     this.AuthService.login(this.loginForm.value).subscribe((data) => {
-      localStorage.setItem('userToken', data);
-      this.router.navigate(['/add-expenses']);
+      console.log(data)
+      if(data.status && data.status === 200){
+        localStorage.setItem('userToken', data);
+        this.router.navigate(['/add-expenses']);
+      }else{
+        this.loginFailedFlag = true;
+        this.loginErrorMsg = data.error;
+        setTimeout(() => {
+          this.loginFailedFlag = false;
+          this.loginErrorMsg = "";
+        }, 2000) 
+      }
     });
   }
-
 }
