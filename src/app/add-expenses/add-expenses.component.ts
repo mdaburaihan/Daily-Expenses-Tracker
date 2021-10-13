@@ -237,7 +237,7 @@ export class AddExpensesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
 
     });
-  }
+  } 
 
   openAddPastExpenseDialog(): void {
     const dialogRef = this.dialog.open(AddPastExpenseComponent, {
