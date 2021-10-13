@@ -48,22 +48,22 @@ export class ExpenseService {
   }
 
   getExpenseDetails(): Observable<any> {
-    const headers = new HttpHeaders().set("token", this.AuthService.getAuthorizationToken());
-    return this.http.get("http://localhost:3000/expense/details", {headers}).pipe(map((res) => {
+    //const headers = new HttpHeaders().set("token", this.AuthService.getAuthorizationToken());
+    return this.http.get("http://localhost:3000/expense/details", {}).pipe(map((res) => {
       this.expenseDetails.next(res as any);
     }), catchError(err => of(err)));
   }
 
   getExpenseList(): Observable<any> {
-    const headers = new HttpHeaders().set("token", this.AuthService.getAuthorizationToken());
-    return this.http.get("http://localhost:3000/expense/list", {headers}).pipe(map((res) => {
+    //const headers = new HttpHeaders().set("token", this.AuthService.getAuthorizationToken());
+    return this.http.get("http://localhost:3000/expense/list", {}).pipe(map((res) => {
       return res;
     }), catchError(err => of(err)));
   }
 
   addMonthlyLimit(data: any): Observable<any> {
-    const headers = new HttpHeaders().set("token", this.AuthService.getAuthorizationToken());
-    return this.http.post<any>("http://localhost:3000/expense/addMonthlyLimit", data, {headers}).pipe(tap(() => {
+    //const headers = new HttpHeaders().set("token", this.AuthService.getAuthorizationToken());
+    return this.http.post<any>("http://localhost:3000/expense/addMonthlyLimit", data, {}).pipe(tap(() => {
         //catchError(this.handleError);
         catchError(this.error.handleError);
       })
@@ -71,8 +71,8 @@ export class ExpenseService {
   }
 
   getMonthlyLimit(): Observable<any> {
-    const headers = new HttpHeaders().set("token", this.AuthService.getAuthorizationToken());
-    return this.http.get("http://localhost:3000/expense/getMonthlyLimit", {headers}).pipe(map((res) => {
+    //const headers = new HttpHeaders().set("token", this.AuthService.getAuthorizationToken());
+    return this.http.get("http://localhost:3000/expense/getMonthlyLimit", {}).pipe(map((res) => {
       this.monthlyLimitDetails.next(res as any);
     }), catchError(err => of(err)));
   }

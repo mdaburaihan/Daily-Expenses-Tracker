@@ -6,6 +6,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { MonthlyLimitComponent } from '../monthly-limit/monthly-limit.component';
 import { AddPastExpenseComponent } from '../add-past-expense/add-past-expense.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -31,7 +32,8 @@ export class AddExpensesComponent implements OnInit {
     private fb: FormBuilder,
     private ExpenseService: ExpenseService,
     private _snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router 
   ) { }
 
   ngOnInit() {
@@ -219,6 +221,11 @@ export class AddExpensesComponent implements OnInit {
     this.ExpenseService.getExpenseDetails().subscribe(res => {
       this.populateExpenses();
     });
+  }
+
+  logout() {
+    localStorage.removeItem("userToken");
+    this.router.navigate(['/login']);
   }
 
   openMonthlyLimitSetDialog(): void {
