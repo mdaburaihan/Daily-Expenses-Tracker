@@ -9,7 +9,6 @@ import { MaterialModule } from './material/material/material.module';
 import { ReactiveFormsModule, FormsModule  } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
-import { RouterModule } from '@angular/router';
 import { ListExpensesComponent } from './list-expenses/list-expenses.component';
 import { MonthlyLimitComponent } from './monthly-limit/monthly-limit.component';
 import { AddPastExpenseComponent } from './add-past-expense/add-past-expense.component';
@@ -39,13 +38,7 @@ import { AuthInterceptor } from './auth-interceptor';
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule,
-    RouterModule.forRoot([
-      { path: "", canActivate:[AuthGuard], component: SignupComponent },
-      { path: "add-expenses", canActivate:[AuthGuard], component: AddExpensesComponent },
-      { path: "list-expenses", canActivate:[AuthGuard], component: ListExpensesComponent },
-      { path: "login", component: LoginComponent },
-    ]),
+    HttpClientModule
   ],
   providers: [AuthGuard, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent],
