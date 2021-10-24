@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { take, map, retry, catchError } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,13 +23,10 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute
   ) {
-    console.log("this.router.url", this.router.url)
 
     if(this.router.url === "/signup"){
-      console.log("==1")
       this.router.navigate(['/signup']);
     }else if(this.AuthService.getAuthorizationToken()){
-      console.log("==2")
       this.router.navigate(['/add-expenses']);
     }
    }
@@ -41,8 +39,18 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void{
-    this.AuthService.login(this.loginForm.value).subscribe((data) => {
-        console.log(data)
+    if(!this.loginForm.valid){
+      const form_keys = Object.keys(this.loginForm.controls);
+
+      form_keys.filter(data => {
+        const control = this.loginForm.controls[data];
+
+        if(!control.errors){
+          control.markAsTouched();
+        }
+      })
+    }else{
+      this.AuthService.login(this.loginForm.value).subscribe((data) => {
         if(data.name === "HttpErrorResponse"){
           this.loginFailedFlag = true;
             this.loginErrorMsg = data.error;
@@ -56,6 +64,7 @@ export class LoginComponent implements OnInit {
         }
       }
     );
+  }
 }
 
 private httpErrorHandler (error: HttpErrorResponse) {
