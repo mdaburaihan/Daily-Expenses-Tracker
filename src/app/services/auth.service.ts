@@ -50,6 +50,12 @@ export class AuthService {
     }), catchError(err => of(err)));
   }
 
+  signinWithGoogle(): Observable<any> {
+    return this.http.get("http://localhost:3000/auth/google", {}).pipe(map((res) => {
+      
+    }), catchError(err => of(err)));
+  }
+
   getAuthorizationToken() {
     const currentUser = localStorage.getItem("userToken");
     return currentUser;

@@ -14,10 +14,16 @@ import { MonthlyLimitComponent } from './monthly-limit/monthly-limit.component';
 import { AddPastExpenseComponent } from './add-past-expense/add-past-expense.component';
 import { SignupComponent } from './signup/signup.component';
 import { DisplayProfilePicComponent } from './display-profile-pic/display-profile-pic.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
+//import { FlexLayoutModule } from '@angular/flex-layout';
 import { AuthGuard } from './auth.guard';
 import { AuthInterceptor } from './auth-interceptor';
-
+//import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
+import {
+  SocialLoginModule,
+  SocialAuthServiceConfig,
+  GoogleLoginProvider,
+  FacebookLoginProvider
+} from 'angularx-social-login';
 
 @NgModule({
   declarations: [
@@ -34,13 +40,38 @@ import { AuthInterceptor } from './auth-interceptor';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    FlexLayoutModule,
+    //FlexLayoutModule,
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SocialLoginModule
   ],
-  providers: [AuthGuard, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
+  providers: [
+    AuthGuard, 
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              'clientId'
+            )
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('clientId')
+          }
+        ],
+        onError: (err) => {
+          console.error(err);
+        }
+      } as SocialAuthServiceConfig,
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent],
   entryComponents: [MonthlyLimitComponent, AddPastExpenseComponent]
 })

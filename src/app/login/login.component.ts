@@ -67,6 +67,10 @@ export class LoginComponent implements OnInit {
   }
 }
 
+signinWithGoogle(): void{
+  this.AuthService.signinWithGoogle()
+}
+
 private httpErrorHandler (error: HttpErrorResponse) {
   if (error.error instanceof ErrorEvent) {
      console.error("A client side error occurs. The error message is " + error.message);
