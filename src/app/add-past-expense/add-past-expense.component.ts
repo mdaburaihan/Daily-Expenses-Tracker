@@ -10,7 +10,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./add-past-expense.component.css']
 })
 export class AddPastExpenseComponent implements OnInit {
-
+  monthlyLimitForm: FormGroup;
+  monthlyLimit: any = 0;
   constructor(
     public dialogRef: MatDialogRef<AddPastExpenseComponent>,
     private fb: FormBuilder,
@@ -21,5 +22,9 @@ export class AddPastExpenseComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  addMonthlyLimit(){}
+
+  onNoClick(){}
 
 }

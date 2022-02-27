@@ -5,6 +5,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { take, map, retry, catchError } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
+import { SocialAuthService } from "angularx-social-login";
+import { GoogleLoginProvider } from "angularx-social-login";
 
 @Component({
   selector: 'app-login',
@@ -21,7 +23,8 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private AuthService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: SocialAuthService
   ) {
 
     if(this.router.url === "/signup"){
@@ -68,7 +71,9 @@ export class LoginComponent implements OnInit {
 }
 
 signinWithGoogle(): void{
-  this.AuthService.signinWithGoogle()
+  this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(user => {
+    console.log(user)
+  })
 }
 
 private httpErrorHandler (error: HttpErrorResponse) {

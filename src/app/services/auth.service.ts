@@ -52,7 +52,7 @@ export class AuthService {
 
   signinWithGoogle(): Observable<any> {
     return this.http.get("http://localhost:3000/auth/google", {}).pipe(map((res) => {
-      
+      console.log(res, "=====****")
     }), catchError(err => of(err)));
   }
 

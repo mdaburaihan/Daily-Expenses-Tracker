@@ -17,10 +17,8 @@ import { DisplayProfilePicComponent } from './display-profile-pic/display-profil
 //import { FlexLayoutModule } from '@angular/flex-layout';
 import { AuthGuard } from './auth.guard';
 import { AuthInterceptor } from './auth-interceptor';
-//import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
+import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
 import {
-  SocialLoginModule,
-  SocialAuthServiceConfig,
   GoogleLoginProvider,
   FacebookLoginProvider
 } from 'angularx-social-login';
@@ -57,7 +55,7 @@ import {
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              'clientId'
+              '940396655000-1t65na3aa0qb3r45kfle9vlt0uc5dkhq.apps.googleusercontent.com'
             )
           },
           {
